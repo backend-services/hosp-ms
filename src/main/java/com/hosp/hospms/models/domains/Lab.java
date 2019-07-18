@@ -1,4 +1,4 @@
-package com.hosp.hospms.models.domain;
+package com.hosp.hospms.models.domains;
 
 import lombok.AccessLevel;
 import lombok.Data;

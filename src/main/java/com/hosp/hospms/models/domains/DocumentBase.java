@@ -1,4 +1,4 @@
-package com.hosp.hospms.models.domain;
+package com.hosp.hospms.models.domains;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;

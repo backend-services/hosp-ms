@@ -1,4 +1,4 @@
-package com.hosp.hospms.models.domain;
+package com.hosp.hospms.models.domains;
 
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -18,7 +18,6 @@ public class Medicine extends Product {
     private boolean medicalPrescription = false;
     private List<String> presentations;
     private MedicineCategory category;
-    private ProductType type;
 
 
     public List<String> getPresentations() {
