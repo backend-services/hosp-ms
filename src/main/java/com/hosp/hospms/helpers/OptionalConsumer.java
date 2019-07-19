@@ -1,4 +1,4 @@
-package com.hosp.hospms.helper;
+package com.hosp.hospms.helpers;
 
 import java.util.Optional;
 import java.util.function.Consumer;
