@@ -17,5 +17,8 @@ public class Patient extends People {
     private People emmergencyContact;
     @DBRef
     List<MedicalRecord> medicalRecordList;
+    private String alergicTo;
+    private BloodType bloodType;
+    private boolean rh;
 
 }
