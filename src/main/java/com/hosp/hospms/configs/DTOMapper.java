@@ -1,6 +1,8 @@
 package com.hosp.hospms.configs;
 
+import com.hosp.hospms.models.DTOs.EquipamentDTO;
 import com.hosp.hospms.models.DTOs.MedicineDTO;
+import com.hosp.hospms.models.domains.Equipament;
 import com.hosp.hospms.models.domains.Medicine;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -21,4 +23,5 @@ public interface DTOMapper {
     Medicine toMedicine(MedicineDTO dto);
 
 
+    Equipament toEquipament(EquipamentDTO dto);
 }
