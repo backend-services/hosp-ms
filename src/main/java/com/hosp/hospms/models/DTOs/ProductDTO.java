@@ -15,6 +15,7 @@ import lombok.Data;
 )
 @JsonSubTypes({
         @JsonSubTypes.Type(value = MedicineDTO.class, name = "MEDICINE"),
+        @JsonSubTypes.Type(value = EquipamentDTO.class, name = "EQUIPAMENT"),
 })
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public abstract class ProductDTO {
