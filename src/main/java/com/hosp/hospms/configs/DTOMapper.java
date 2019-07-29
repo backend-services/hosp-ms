@@ -1,6 +1,6 @@
 package com.hosp.hospms.configs;
 
-import com.hosp.hospms.models.DTOs.EquipamentDTO;
+import com.hosp.hospms.models.DTOs.EquipmentDTO;
 import com.hosp.hospms.models.DTOs.MedicineDTO;
 import com.hosp.hospms.models.domains.Equipament;
 import com.hosp.hospms.models.domains.Medicine;
@@ -16,12 +16,11 @@ public interface DTOMapper {
     DTOMapper INSTANCE = Mappers.getMapper( DTOMapper.class );
 
     @Mapping(target = "type", constant = "MEDICINE")
-    @Mapping(source = "lab.name", target = "lab")
+    @Mapping(source = "labName", target = "lab")
     MedicineDTO toMedicineDTO(Medicine entity);
 
-    @Mapping(source = "lab", target = "lab.name")
+    @Mapping(source = "lab", target = "labName")
     Medicine toMedicine(MedicineDTO dto);
 
-
-    Equipament toEquipament(EquipamentDTO dto);
+    Equipament toEquipament(EquipmentDTO dto);
 }

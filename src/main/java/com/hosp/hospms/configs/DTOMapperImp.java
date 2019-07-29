@@ -1,6 +1,6 @@
 package com.hosp.hospms.configs;
 
-import com.hosp.hospms.models.DTOs.EquipamentDTO;
+import com.hosp.hospms.models.DTOs.EquipmentDTO;
 import com.hosp.hospms.models.DTOs.MedicineDTO;
 import com.hosp.hospms.models.DTOs.ProductDTO;
 import com.hosp.hospms.models.domains.Product;
@@ -17,10 +17,12 @@ public class DTOMapperImp {
 
     public Product toProduct(ProductDTO productDTO){
 
-        mapper.toMedicine((MedicineDTO) productDTO);
+        if(productDTO instanceof MedicineDTO)
+            return mapper.toMedicine((MedicineDTO) productDTO);
 
-        mapper.toEquipament((EquipamentDTO) productDTO);
+        if(productDTO instanceof EquipmentDTO)
+            return mapper.toEquipament((EquipmentDTO) productDTO);
 
-        return  null;
+        throw new IllegalArgumentException();
     }
 }
