@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.hosp.hospms.models.domains.ProductType;
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Setter;
 
 @Data
 @JsonTypeInfo(
@@ -15,11 +17,12 @@ import lombok.Data;
 )
 @JsonSubTypes({
         @JsonSubTypes.Type(value = MedicineDTO.class, name = "MEDICINE"),
-        @JsonSubTypes.Type(value = EquipamentDTO.class, name = "EQUIPAMENT"),
+        @JsonSubTypes.Type(value = EquipmentDTO.class, name = "EQUIPMENT"),
 })
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public abstract class ProductDTO {
 
+    @Setter(AccessLevel.NONE)
     private String id;
     private String name;
     private ProductType type;
