@@ -2,7 +2,7 @@ package com.hosp.hospms.services;
 
 import com.hosp.hospms.exceptions.ResourceNotFoundException;
 import com.hosp.hospms.helpers.OptionalConsumer;
-import com.hosp.hospms.models.domains.Product;
+import com.hosp.hospms.models.domains.product.Product;
 import com.hosp.hospms.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

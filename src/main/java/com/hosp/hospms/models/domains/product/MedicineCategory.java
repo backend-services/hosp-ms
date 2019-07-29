@@ -1,4 +1,4 @@
-package com.hosp.hospms.models.domains;
+package com.hosp.hospms.models.domains.product;
 
 public enum MedicineCategory {
     GENERIC,

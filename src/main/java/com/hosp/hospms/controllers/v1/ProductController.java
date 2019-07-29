@@ -1,7 +1,7 @@
 package com.hosp.hospms.controllers.v1;
 
 import com.hosp.hospms.configs.DTOMapperImp;
-import com.hosp.hospms.models.DTOs.ProductDTO;
+import com.hosp.hospms.models.DTOs.product.ProductDTO;
 import com.hosp.hospms.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,14 +24,7 @@ public class ProductController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void create(@RequestBody ProductDTO productDTO){
-
-
-        System.out.println(productDTO.getClass().getName());
-        System.out.println(productDTO.toString());
-
-
         service.createOrUpdate(mapper.toProduct(productDTO));
-
     }
 
 }

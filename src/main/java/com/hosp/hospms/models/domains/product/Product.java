@@ -1,5 +1,6 @@
-package com.hosp.hospms.models.domains;
+package com.hosp.hospms.models.domains.product;
 
+import com.hosp.hospms.models.domains.DocumentBase;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;

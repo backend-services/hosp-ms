@@ -1,4 +1,4 @@
-package com.hosp.hospms.models.domains;
+package com.hosp.hospms.models.domains.product;
 
 import lombok.Data;
 import org.springframework.util.CollectionUtils;

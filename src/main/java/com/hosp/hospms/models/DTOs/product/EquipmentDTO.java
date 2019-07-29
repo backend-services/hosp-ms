@@ -1,4 +1,4 @@
-package com.hosp.hospms.models.DTOs;
+package com.hosp.hospms.models.DTOs.product;
 
 import lombok.Data;
 
