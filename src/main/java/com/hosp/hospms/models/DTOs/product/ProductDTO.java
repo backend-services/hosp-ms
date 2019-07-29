@@ -1,9 +1,9 @@
-package com.hosp.hospms.models.DTOs;
+package com.hosp.hospms.models.DTOs.product;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.hosp.hospms.models.domains.ProductType;
+import com.hosp.hospms.models.domains.product.ProductType;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;

@@ -1,6 +1,6 @@
 package com.hosp.hospms.repositories;
 
-import com.hosp.hospms.models.domains.Product;
+import com.hosp.hospms.models.domains.product.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;

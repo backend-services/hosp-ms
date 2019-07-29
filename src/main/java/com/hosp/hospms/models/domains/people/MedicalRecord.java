@@ -1,6 +1,6 @@
 package com.hosp.hospms.models.domains.people;
 
-import com.hosp.hospms.models.domains.Product;
+import com.hosp.hospms.models.domains.product.Product;
 import lombok.Data;
 
 import java.time.LocalDateTime;

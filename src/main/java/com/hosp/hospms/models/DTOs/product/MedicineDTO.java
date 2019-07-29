@@ -1,6 +1,6 @@
-package com.hosp.hospms.models.DTOs;
+package com.hosp.hospms.models.DTOs.product;
 
-import com.hosp.hospms.models.domains.MedicineCategory;
+import com.hosp.hospms.models.domains.product.MedicineCategory;
 import lombok.Data;
 
 import java.util.List;
