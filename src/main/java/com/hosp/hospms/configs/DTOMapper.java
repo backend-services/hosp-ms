@@ -23,4 +23,7 @@ public interface DTOMapper {
     Medicine toMedicine(MedicineDTO dto);
 
     Equipment toEquipament(EquipmentDTO dto);
+
+    @Mapping(target = "type", constant = "EQUIPMENT")
+    EquipmentDTO toEquipamentDTO(Equipment entity);
 }

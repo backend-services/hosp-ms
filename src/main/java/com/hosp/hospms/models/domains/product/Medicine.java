@@ -18,7 +18,7 @@ public class Medicine extends Product {
 
 
     public List<String> getPresentations() {
-        if (CollectionUtils.isEmpty(presentations)) Collections.emptyList();
+        if (CollectionUtils.isEmpty(presentations)) return Collections.emptyList();
         return Collections.unmodifiableList(presentations);
     }
 
