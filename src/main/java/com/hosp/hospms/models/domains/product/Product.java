@@ -18,4 +18,8 @@ public abstract class Product extends DocumentBase {
     private ProductType type;
     private long quantity;
 
+    public void update(Product productUpdate) {
+        this.name = productUpdate.name;
+        this.quantity = productUpdate.quantity;
+    }
 }
