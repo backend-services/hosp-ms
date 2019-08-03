@@ -10,14 +10,14 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/v1/products")
-@CrossOrigin( origins = "*")
-public class ProductController implements CRUDConroller<ProductDTO> {
+@CrossOrigin(origins = "*")
+public class ProductController implements CRUDController<ProductDTO> {
 
     private final ProductService service;
     private final DTOMapperImp mapper;
@@ -30,12 +30,13 @@ public class ProductController implements CRUDConroller<ProductDTO> {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void create(@RequestBody ProductDTO productDTO){
-        service.createOrUpdate(mapper.toProduct(productDTO));
+    public ProductDTO create(@RequestBody @Valid ProductDTO productDTO) {
+        Product product = service.create(mapper.toProduct(productDTO));
+        return  mapper.toProductDTO(product);
     }
 
     @GetMapping
-    public Page<ProductDTO> getAll(Pageable page){
+    public Page<ProductDTO> getAll(Pageable page) {
         Page<Product> products = service.findAll(page);
 
         List<ProductDTO> productDTOS = products
@@ -46,4 +47,15 @@ public class ProductController implements CRUDConroller<ProductDTO> {
         return new PageImpl(productDTOS, page, products.getTotalElements());
     }
 
+    @PutMapping("{id}")
+    public ProductDTO update(@PathVariable String id, @RequestBody @Valid ProductDTO productDTO) {
+        Product product = service.update(id, mapper.toProduct(productDTO));
+        return mapper.toProductDTO(product);
+    }
+
+    @DeleteMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void remove(@PathVariable String id) {
+        service.remove(id);
+    }
 }

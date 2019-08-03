@@ -28,4 +28,14 @@ public class Medicine extends Product {
         presentations.add(presentation);
     }
 
+    @Override
+    public void update(Product productUpdate) {
+        super.update(productUpdate);
+        Medicine medicineUpdate = (Medicine) productUpdate;
+        this.substanceName = medicineUpdate.getSubstanceName();
+        this.labName = medicineUpdate.getLabName();
+        this.medicalPrescription =  medicineUpdate.isMedicalPrescription();
+        this.presentations = medicineUpdate.getPresentations();
+        this.category = medicineUpdate.getCategory();
+    }
 }

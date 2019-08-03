@@ -22,9 +22,18 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product createOrUpdate(Product product) {
+    public Product create(Product product) {
         return repository.save(product);
     }
+
+    @Override
+    public Product update(String id, Product product) {
+        Optional<Product> productOpt = repository.findById(id);
+        Product productSave = productOpt.orElseThrow(ResourceNotFoundException::new);
+        productSave.update(product);
+        return repository.save(productSave);
+    }
+
 
     @Override
     public void remove(String id) {
@@ -32,11 +41,11 @@ public class ProductServiceImpl implements ProductService {
 
         OptionalConsumer
                 .of(productOpt)
-                    .ifPresent(product -> {
-                        product.setActive(false);
-                        createOrUpdate(product);
-                    })
-                    .ifNotPresent(ResourceNotFoundException::new);
+                .ifPresent(product -> {
+                    product.setActive(false);
+                    create(product);
+                })
+                .ifNotPresent(ResourceNotFoundException::new);
 
     }
 
