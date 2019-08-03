@@ -9,4 +9,5 @@ public interface CRUDController<T> {
     Page<T> getAll(Pageable page);
     void remove(String id);
     T update(String id, T t);
+    T find(String id);
 }

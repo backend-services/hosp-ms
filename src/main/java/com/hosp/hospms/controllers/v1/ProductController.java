@@ -58,4 +58,10 @@ public class ProductController implements CRUDController<ProductDTO> {
     public void remove(@PathVariable String id) {
         service.remove(id);
     }
+
+    @GetMapping("{id}")
+    public ProductDTO find(@PathVariable String id){
+        Product product = service.find(id);
+        return  mapper.toProductDTO(product);
+    }
 }
