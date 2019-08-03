@@ -4,6 +4,7 @@ import com.hosp.hospms.exceptions.ResourceNotFoundException;
 import com.hosp.hospms.helpers.OptionalConsumer;
 import com.hosp.hospms.models.domains.product.Product;
 import com.hosp.hospms.repositories.ProductRepository;
+import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,12 +23,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product create(Product product) {
+    public Product create(@NonNull Product product) {
         return repository.save(product);
     }
 
     @Override
-    public Product update(String id, Product product) {
+    public Product update(@NonNull String id, @NonNull Product product) {
         Optional<Product> productOpt = repository.findById(id);
         Product productSave = productOpt.orElseThrow(ResourceNotFoundException::new);
         productSave.update(product);
@@ -50,12 +51,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<Product> findAll(Pageable page) {
+    public Page<Product> findAll(@NonNull Pageable page) {
         return repository.findByActiveTrue(page);
     }
 
     @Override
-    public Product find(String id) {
+    public Product find(@NonNull String id) {
         Optional<Product> productOpt = repository.findById(id);
         return productOpt.orElseThrow(ResourceNotFoundException::new);
     }
