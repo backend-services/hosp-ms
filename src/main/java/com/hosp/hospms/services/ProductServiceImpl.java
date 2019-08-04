@@ -1,7 +1,6 @@
 package com.hosp.hospms.services;
 
 import com.hosp.hospms.exceptions.ResourceNotFoundException;
-import com.hosp.hospms.helpers.OptionalConsumer;
 import com.hosp.hospms.models.domains.product.Product;
 import com.hosp.hospms.repositories.ProductRepository;
 import lombok.NonNull;
@@ -39,15 +38,9 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void remove(String id) {
         Optional<Product> productOpt = repository.findById(id);
-
-        OptionalConsumer
-                .of(productOpt)
-                .ifPresent(product -> {
-                    product.setActive(false);
-                    create(product);
-                })
-                .ifNotPresent(ResourceNotFoundException::new);
-
+        Product product = productOpt.orElseThrow(ResourceNotFoundException::new);
+        product.setActive(false);
+        repository.save(product);
     }
 
     @Override
