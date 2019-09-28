@@ -20,6 +20,8 @@
 		<org.projectlombok.version>1.18.8</org.projectlombok.version>
 		<junit-jupiter.version>5.3.2</junit-jupiter.version>
 		<mockito.version>2.24.0</mockito.version>
+		<maven.coveralls.plugin.version>4.3.0</maven.coveralls.plugin.version>
+		<maven.jacoco.plugin.version>0.8.2</maven.jacoco.plugin.version>
 	</properties>
 
 	<dependencies>
@@ -95,7 +97,27 @@
 					</annotationProcessorPaths>
 				</configuration>
 			</plugin>
-
+			<plugin>
+				<groupId>org.eluder.coveralls</groupId>
+				<artifactId>coveralls-maven-plugin</artifactId>
+				<version>${maven.coveralls.plugin.version}</version>
+				<configuration>
+					<repoToken>Jr05vYEpeU5lLYSIayIrIjv6Vqr7q6wyv</repoToken>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>${maven.jacoco.plugin.version}</version>
+				<executions>
+					<execution>
+						<id>prepare-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 
