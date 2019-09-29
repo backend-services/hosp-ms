@@ -119,7 +119,7 @@
 				</executions>
 				<configuration>
 					<excludes>
-						<exclude>**/configs/*, **/models/*, **/repositories/*,</exclude>
+						<exclude>**/configs/*, **/models/**, **/repositories/*,**/exceptions/*,</exclude>
 					</excludes>
 				</configuration>
 			</plugin>
