@@ -38,12 +38,7 @@ public class ProductControllerImpl implements CRUDController<ProductDTO>, Produc
     @GetMapping
     public Page<ProductDTO> getAll(Pageable page) {
         Page<Product> products = service.findAll(page);
-
-        List<ProductDTO> productDTOS = products
-                .stream()
-                .map(mapper::toProductDTO)
-                .collect(Collectors.toList());
-
+        List<ProductDTO> productDTOS = getProductDTOS(products);
         return new PageImpl(productDTOS, page, products.getTotalElements());
     }
 
@@ -65,14 +60,17 @@ public class ProductControllerImpl implements CRUDController<ProductDTO>, Produc
         return  mapper.toProductDTO(product);
     }
 
-    @GetMapping("/find")
+    @GetMapping("/low-stock")
     public Page<ProductDTO> findLowStock() {
         Page<Product> products = service.findLowStock();
-        List<ProductDTO> productDTOS = products
+        List<ProductDTO> productDTOS = getProductDTOS(products);
+        return new PageImpl(productDTOS);
+    }
+
+    private List<ProductDTO> getProductDTOS(Page<Product> products) {
+        return products
                 .stream()
                 .map(mapper::toProductDTO)
                 .collect(Collectors.toList());
-
-        return new PageImpl(productDTOS);
     }
 }
