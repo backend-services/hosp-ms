@@ -119,7 +119,7 @@
 				</executions>
 				<configuration>
 					<excludes>
-						<exclude>**/configs/*, **/models/**, **/repositories/*,**/exceptions/*,</exclude>
+						<exclude>**/configs/*, **/models/**, **/repositories/*,**/exceptions/*,HospMsApplication.java</exclude>
 					</excludes>
 				</configuration>
 			</plugin>
