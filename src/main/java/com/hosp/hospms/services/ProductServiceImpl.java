@@ -6,7 +6,9 @@ import com.hosp.hospms.repositories.ProductRepository;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -52,5 +54,11 @@ public class ProductServiceImpl implements ProductService {
     public Product find(@NonNull String id) {
         Optional<Product> productOpt = repository.findById(id);
         return productOpt.orElseThrow(ResourceNotFoundException::new);
+    }
+
+    @Override
+    public Page<Product> findLowStock() {
+        Pageable page = PageRequest.of(0, 10, new Sort(Sort.Direction.ASC, "quantity"));
+        return repository.findAll (page);
     }
 }
