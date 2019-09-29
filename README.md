@@ -5,11 +5,11 @@
 # HOSP-MS
 
 ### Technologies
-- Java 8;
-- Spring Boot;
-- Spring Data;
-- MongoDB;
-- Lombok;
+- Java 8
+- Spring Boot
+- Spring Data
+- MongoDB
+- Lombok
 - JUnit 5
 
 
