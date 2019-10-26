@@ -61,8 +61,8 @@ public class ProductControllerImpl implements CRUDController<ProductDTO>, Produc
     }
 
     @GetMapping("/low-stock")
-    public Page<ProductDTO> findLowStock() {
-        Page<Product> products = service.findLowStock();
+    public Page<ProductDTO> findLowStock(Pageable page) {
+        Page<Product> products = service.findLowStock(page);
         List<ProductDTO> productDTOS = getProductDTOS(products);
         return new PageImpl(productDTOS);
     }

@@ -1,5 +1,6 @@
 package com.hosp.hospms.services;
 
+import com.hosp.hospms.databuilder.MedicineBuilder;
 import com.hosp.hospms.exceptions.ResourceNotFoundException;
 import com.hosp.hospms.models.domains.product.Medicine;
 import com.hosp.hospms.models.domains.product.MedicineCategory;
@@ -12,6 +13,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,7 +24,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class ProductServiceImplTest {
+class ProductServiceImplTest {
 
     @InjectMocks
     private ProductServiceImpl service;
@@ -38,9 +43,7 @@ public class ProductServiceImplTest {
     void shouldExceptionWhenNoFindProductById() {
         when(repository.findById(id)).thenReturn(Optional.empty());
 
-        assertThrows(ResourceNotFoundException.class, () -> {
-            service.find(id);
-        });
+        assertThrows(ResourceNotFoundException.class, () -> service.find(id));
     }
 
 
@@ -48,9 +51,7 @@ public class ProductServiceImplTest {
     void shouldExceptionWhenNoRemoveById() {
         when(repository.findById(id)).thenReturn(Optional.empty());
 
-        assertThrows(ResourceNotFoundException.class, () -> {
-            service.remove(id);
-        });
+        assertThrows(ResourceNotFoundException.class, () -> service.remove(id));
     }
 
 
@@ -59,9 +60,7 @@ public class ProductServiceImplTest {
         Product product = new Medicine();
         when(repository.findById(id)).thenReturn(Optional.empty());
 
-        assertThrows(ResourceNotFoundException.class, () -> {
-            service.update(id, product);
-        });
+        assertThrows(ResourceNotFoundException.class, () -> service.update(id, product));
     }
 
     @Test
@@ -79,8 +78,8 @@ public class ProductServiceImplTest {
 
     @Test
     void shouldUpdateWhenUpdateProduct() {
-        Medicine product = getProductMock();
-        Medicine prodUpdate = getMedicineUpdate();
+        Product product = MedicineBuilder.get();
+        Medicine prodUpdate = toUpdate();
 
         when(repository.findById(id)).thenReturn(Optional.of(product));
         when(repository.save(any())).thenReturn(product);
@@ -101,9 +100,9 @@ public class ProductServiceImplTest {
 
     @Test
     void shouldNotUpdateType() {
-        Medicine product = getProductMock();
+        Product product = MedicineBuilder.get();
         product.setType(ProductType.MEDICINE);
-        Medicine prodUpdate = getMedicineUpdate();
+        Product prodUpdate = MedicineBuilder.get();
         prodUpdate.setType(ProductType.EQUIPMENT);
 
         when(repository.findById(id)).thenReturn(Optional.of(product));
@@ -114,24 +113,61 @@ public class ProductServiceImplTest {
         assertNotEquals(prodUpdate.getType(), update.getType());
     }
 
-    private Medicine getProductMock() {
-        Medicine medicine = new Medicine();
-        medicine.setName("Name");
-        medicine.setQuantity(1);
-        medicine.setSubstanceName("substance name");
-        medicine.setLabName("lab name");
-        medicine.setPresentation("presentation a");
-        medicine.setPresentation("presentation b");
-        medicine.setCategory(MedicineCategory.GENERIC);
-        return medicine;
+    @Test
+    void shouldFindAllWhenNoPassFilter() {
+        Pageable page = Pageable.unpaged();
+        List<Product> list = MedicineBuilder.getList();
+        Page<Product> productList = new PageImpl(list);
+        when(repository.findByActiveTrue(page)).thenReturn(productList);
+
+        Page<Product> allProducts = service.findAll(page);
+
+        List<Product> content1 = productList.getContent();
+        List<Product> content2 = allProducts.getContent();
+
+        assertEquals(productList.getTotalElements(), allProducts.getTotalElements());
+
+        for(int i = 0; i < content1.size(); i++){
+            assertEquals(content1.get(i).getId(), content2.get(i).getId());
+            assertEquals(content1.get(i).getName(), content2.get(i).getName());
+            assertEquals(content1.get(i).getType(), content2.get(i).getType());
+        }
     }
 
-    private Medicine getMedicineUpdate() {
+
+    @Test
+    void shouldFindOneWhenNoPassId() {
+        Product product = MedicineBuilder.get();
+        when(repository.findById(id)).thenReturn(Optional.of(product));
+
+        Product productResult = service.find(id);
+
+        assertEquals(product.getId(), productResult.getId());
+        assertEquals(product.getName(), productResult.getName());
+        assertEquals(product.getType(), productResult.getType());
+    }
+
+    @Test
+    void shouldCreateProduct() {
+        Product product = MedicineBuilder.get();
+        when(repository.save(product)).thenReturn(product)  ;
+
+        Product productResult = service.create(product);
+
+        assertEquals(product.getId(), productResult.getId());
+        assertEquals(product.getName(), productResult.getName());
+        assertEquals(product.getType(), productResult.getType());
+
+    }
+
+
+    private Medicine toUpdate() {
+
         Medicine medUpdate = new Medicine();
-        medUpdate.setName("Name Update");
+        medUpdate.setName("Abba - update");
         medUpdate.setQuantity(2);
-        medUpdate.setSubstanceName("substance name update");
-        medUpdate.setLabName("lab name update");
+        medUpdate.setSubstanceName("Acetato de Abiraterona - update");
+        medUpdate.setLabName("Sun pharma - update");
         medUpdate.setPresentation("presentation a update");
         medUpdate.setPresentation("presentation b update");
         medUpdate.setPresentation("presentation c update");

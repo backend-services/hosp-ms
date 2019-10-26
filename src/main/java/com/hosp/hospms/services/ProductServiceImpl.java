@@ -16,6 +16,8 @@ import java.util.Optional;
 @Service
 public class ProductServiceImpl implements ProductService {
 
+    private static final String QUANTITY = "quantity";
+    private static final int INIT_PAGE = 0;
     private final ProductRepository repository;
 
     @Autowired
@@ -57,8 +59,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<Product> findLowStock() {
-        Pageable page = PageRequest.of(0, 10, new Sort(Sort.Direction.ASC, "quantity"));
-        return repository.findAll (page);
+    public Page<Product> findLowStock(@NonNull Pageable page) {
+        Pageable pageQuery = PageRequest.of(INIT_PAGE, page.getPageSize(), new Sort(Sort.Direction.ASC, QUANTITY));
+        return repository.findAll (pageQuery);
     }
 }
