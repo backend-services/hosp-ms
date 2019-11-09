@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class MedicineTest {
+class MedicineTest {
 
     private Medicine medicine;
 
@@ -16,13 +16,13 @@ public class MedicineTest {
     }
 
     @Test
-    public void shouldReturnEmptyLitWhenPresentationsNull() {
+    void shouldReturnEmptyLitWhenPresentationsNull() {
         assertNotNull(medicine.getPresentations());
         assertEquals(0L, medicine.getPresentations().size());
     }
 
     @Test
-    public void shouldReturnUnmodifiableListWhenPresentationsNotNull() {
+    void shouldReturnUnmodifiableListWhenPresentationsNotNull() {
         medicine.setPresentation("presentation a");
         assertNotNull(medicine.getPresentations());
         assertEquals(1L, medicine.getPresentations().size());
@@ -33,14 +33,14 @@ public class MedicineTest {
     }
 
     @Test
-    public void shouldSetPresentationWhenPresentationsNull() {
+    void shouldSetPresentationWhenPresentationsNull() {
         medicine.setPresentation("presentation a");
         assertNotNull(medicine.getPresentations());
         assertEquals(1L, medicine.getPresentations().size());
     }
 
     @Test
-    public void shouldSetPresentationWhenPresentationsNotNull() {
+    void shouldSetPresentationWhenPresentationsNotNull() {
         medicine.setPresentation("presentation a");
         medicine.setPresentation("presentation b");
         assertNotNull(medicine.getPresentations());
@@ -48,7 +48,7 @@ public class MedicineTest {
     }
 
     @Test
-    public void shouldMedicalPrescriptionFalseWhenCreateMedicine() {
+    void shouldMedicalPrescriptionFalseWhenCreateMedicine() {
         assertFalse(medicine.isMedicalPrescription());
     }
 

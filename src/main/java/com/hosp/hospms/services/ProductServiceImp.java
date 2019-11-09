@@ -6,18 +6,22 @@ import com.hosp.hospms.repositories.ProductRepository;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
-public class ProductServiceImpl implements ProductService {
+public class ProductServiceImp implements ProductService {
 
+    private static final String QUANTITY = "quantity";
+    private static final int INIT_PAGE = 0;
     private final ProductRepository repository;
 
     @Autowired
-    public ProductServiceImpl(ProductRepository repository) {
+    public ProductServiceImp(ProductRepository repository) {
         this.repository = repository;
     }
 
@@ -52,5 +56,11 @@ public class ProductServiceImpl implements ProductService {
     public Product find(@NonNull String id) {
         Optional<Product> productOpt = repository.findById(id);
         return productOpt.orElseThrow(ResourceNotFoundException::new);
+    }
+
+    @Override
+    public Page<Product> findLowStock(@NonNull Pageable page) {
+        Pageable pageQuery = PageRequest.of(INIT_PAGE, page.getPageSize(), new Sort(Sort.Direction.ASC, QUANTITY));
+        return repository.findAll (pageQuery);
     }
 }

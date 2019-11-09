@@ -1,6 +1,9 @@
 package com.hosp.hospms.models.domains.product;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
@@ -8,6 +11,9 @@ import java.util.Collections;
 import java.util.List;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Medicine extends Product {
 
     private String  substanceName;
