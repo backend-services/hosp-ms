@@ -7,11 +7,10 @@ import org.mockito.Mockito;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-public class ProductTest {
-
+class ProductTest {
 
     private Product productAbs;
-    private  Product prodUpdate;
+    private Product prodUpdate;
 
     @BeforeEach
     void setUp() {

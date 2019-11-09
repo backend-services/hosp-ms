@@ -1,6 +1,6 @@
 package com.hosp.hospms.services;
 
-import com.hosp.hospms.databuilder.MedicineBuilder;
+import com.hosp.hospms.databuilder.ProductBuilder;
 import com.hosp.hospms.exceptions.ResourceNotFoundException;
 import com.hosp.hospms.models.domains.product.Medicine;
 import com.hosp.hospms.models.domains.product.MedicineCategory;
@@ -24,15 +24,17 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class ProductServiceImplTest {
+class ProductServiceImpTest {
 
     @InjectMocks
-    private ProductServiceImpl service;
+    private ProductServiceImp service;
 
     @Mock
     private ProductRepository repository;
 
     private String id;
+    private Product product;
+    private Product productResult;
 
     @BeforeEach
     void setUp() {
@@ -41,32 +43,30 @@ class ProductServiceImplTest {
 
     @Test
     void shouldExceptionWhenNoFindProductById() {
-        when(repository.findById(id)).thenReturn(Optional.empty());
+        findByIdMock();
 
         assertThrows(ResourceNotFoundException.class, () -> service.find(id));
     }
 
-
     @Test
     void shouldExceptionWhenNoRemoveById() {
-        when(repository.findById(id)).thenReturn(Optional.empty());
+        findByIdMock();
 
         assertThrows(ResourceNotFoundException.class, () -> service.remove(id));
     }
 
-
     @Test
     void shouldExceptionWhenNoUpdateById() {
-        Product product = new Medicine();
-        when(repository.findById(id)).thenReturn(Optional.empty());
+        product = new Medicine();
+        findByIdMock();
 
         assertThrows(ResourceNotFoundException.class, () -> service.update(id, product));
     }
 
     @Test
     void shouldInactivateWhenRemoveProduct() {
-        Product product = new Medicine();
-        when(repository.findById(id)).thenReturn(Optional.of(product));
+        product = new Medicine();
+        findByIdOptionalMock(product);
 
         assertTrue(product.isActive());
 
@@ -75,37 +75,25 @@ class ProductServiceImplTest {
         assertFalse(product.isActive());
     }
 
-
     @Test
     void shouldUpdateWhenUpdateProduct() {
-        Product product = MedicineBuilder.get();
-        Medicine prodUpdate = toUpdate();
+        Medicine toUpdate = toUpdate();
 
-        when(repository.findById(id)).thenReturn(Optional.of(product));
-        when(repository.save(any())).thenReturn(product);
+        repositoryMock();
 
-        Medicine update = (Medicine) service.update(id, prodUpdate);
+        Medicine updated = (Medicine) service.update(id, toUpdate);
 
-        assertEquals(prodUpdate.getName(), update.getName());
-        assertEquals(prodUpdate.getQuantity(), update.getQuantity());
-        assertEquals(prodUpdate.getSubstanceName(), update.getSubstanceName());
-        assertEquals(prodUpdate.getLabName(), update.getLabName());
-        assertEquals(3L, update.getPresentations().size());
-        assertEquals(prodUpdate.getPresentations().get(0), update.getPresentations().get(0));
-        assertEquals(prodUpdate.getPresentations().get(1), update.getPresentations().get(1));
-        assertEquals(prodUpdate.getPresentations().get(2), update.getPresentations().get(2));
-        assertEquals(prodUpdate.getCategory(), update.getCategory());
-
+        assertProductUpdate(toUpdate, updated);
     }
 
     @Test
     void shouldNotUpdateType() {
-        Product product = MedicineBuilder.get();
+        product = ProductBuilder.get();
         product.setType(ProductType.MEDICINE);
-        Product prodUpdate = MedicineBuilder.get();
+        Product prodUpdate = ProductBuilder.get();
         prodUpdate.setType(ProductType.EQUIPMENT);
 
-        when(repository.findById(id)).thenReturn(Optional.of(product));
+        findByIdOptionalMock(product);
         when(repository.save(any())).thenReturn(product);
 
         Medicine update = (Medicine) service.update(id, prodUpdate);
@@ -116,8 +104,8 @@ class ProductServiceImplTest {
     @Test
     void shouldFindAllWhenNoPassFilter() {
         Pageable page = Pageable.unpaged();
-        List<Product> list = MedicineBuilder.getList();
-        Page<Product> productList = new PageImpl(list);
+        List<Product> list = ProductBuilder.getList();
+        Page<Product> productList = new PageImpl<>(list);
         when(repository.findByActiveTrue(page)).thenReturn(productList);
 
         Page<Product> allProducts = service.findAll(page);
@@ -128,38 +116,47 @@ class ProductServiceImplTest {
         assertEquals(productList.getTotalElements(), allProducts.getTotalElements());
 
         for(int i = 0; i < content1.size(); i++){
-            assertEquals(content1.get(i).getId(), content2.get(i).getId());
-            assertEquals(content1.get(i).getName(), content2.get(i).getName());
-            assertEquals(content1.get(i).getType(), content2.get(i).getType());
+            product = content1.get(i);
+            productResult = content2.get(i);
+            assertProduct();
         }
     }
 
 
     @Test
     void shouldFindOneWhenNoPassId() {
-        Product product = MedicineBuilder.get();
-        when(repository.findById(id)).thenReturn(Optional.of(product));
+        product = ProductBuilder.get();
+        findByIdOptionalMock(product);
 
-        Product productResult = service.find(id);
+        productResult = service.find(id);
 
-        assertEquals(product.getId(), productResult.getId());
-        assertEquals(product.getName(), productResult.getName());
-        assertEquals(product.getType(), productResult.getType());
+        assertProduct();
     }
 
     @Test
     void shouldCreateProduct() {
-        Product product = MedicineBuilder.get();
+        product = ProductBuilder.get();
         when(repository.save(product)).thenReturn(product)  ;
 
-        Product productResult = service.create(product);
+        productResult = service.create(product);
 
-        assertEquals(product.getId(), productResult.getId());
-        assertEquals(product.getName(), productResult.getName());
-        assertEquals(product.getType(), productResult.getType());
+        assertProduct();
 
     }
 
+    private void findByIdMock() {
+        when(repository.findById(id)).thenReturn(Optional.empty());
+    }
+
+    private void findByIdOptionalMock(Product product) {
+        when(repository.findById(id)).thenReturn(Optional.of(product));
+    }
+
+    private void assertProduct() {
+        assertEquals(product.getId(), productResult.getId());
+        assertEquals(product.getName(), productResult.getName());
+        assertEquals(product.getType(), productResult.getType());
+    }
 
     private Medicine toUpdate() {
 
@@ -173,5 +170,29 @@ class ProductServiceImplTest {
         medUpdate.setPresentation("presentation c update");
         medUpdate.setCategory(MedicineCategory.REFERENCE);
         return medUpdate;
+    }
+
+    private void assertProductUpdate(Medicine toUpdate, Medicine updated) {
+        assertEquals(toUpdate.getName(), updated.getName());
+        assertEquals(toUpdate.getQuantity(), updated.getQuantity());
+        assertEquals(toUpdate.getSubstanceName(), updated.getSubstanceName());
+        assertEquals(toUpdate.getLabName(), updated.getLabName());
+        assertPresentations(toUpdate.getPresentations(), updated.getPresentations());
+        assertEquals(toUpdate.getCategory(), updated.getCategory());
+    }
+
+    private void repositoryMock() {
+        product = ProductBuilder.get();
+        findByIdOptionalMock(product);
+        when(repository.save(any())).thenReturn(product);
+    }
+
+    private void assertPresentations(List<String>  toUpdates, List<String>  updateds) {
+        assertEquals(3L, updateds.size());
+        assertEquals(3L, toUpdates.size());
+
+        for(int i = 0; i < updateds.size(); i++){
+            assertEquals(toUpdates.get(i), updateds.get(i));
+        }
     }
 }

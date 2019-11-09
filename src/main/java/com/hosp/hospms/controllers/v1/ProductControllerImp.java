@@ -17,13 +17,13 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/v1/products")
 @CrossOrigin(origins = "*")
-public class ProductControllerImpl implements CRUDController<ProductDTO>, ProductController {
+public class ProductControllerImp implements CRUDController<ProductDTO>, ProductController {
 
     private final ProductService service;
     private final DTOMapperImp mapper;
 
     @Autowired
-    public ProductControllerImpl(ProductService service, DTOMapperImp mapper) {
+    public ProductControllerImp(ProductService service, DTOMapperImp mapper) {
         this.service = service;
         this.mapper = mapper;
     }
@@ -36,10 +36,10 @@ public class ProductControllerImpl implements CRUDController<ProductDTO>, Produc
     }
 
     @GetMapping
-    public Page<ProductDTO> getAll(Pageable page) {
+    public Page<ProductDTO> findAll(Pageable page) {
         Page<Product> products = service.findAll(page);
         List<ProductDTO> productDTOS = getProductDTOS(products);
-        return new PageImpl(productDTOS, page, products.getTotalElements());
+        return new PageImpl<>(productDTOS, page, products.getTotalElements());
     }
 
     @PutMapping("{id}")
@@ -64,7 +64,7 @@ public class ProductControllerImpl implements CRUDController<ProductDTO>, Produc
     public Page<ProductDTO> findLowStock(Pageable page) {
         Page<Product> products = service.findLowStock(page);
         List<ProductDTO> productDTOS = getProductDTOS(products);
-        return new PageImpl(productDTOS);
+        return new PageImpl<>(productDTOS);
     }
 
     private List<ProductDTO> getProductDTOS(Page<Product> products) {

@@ -1,5 +1,7 @@
 package com.hosp.hospms.databuilder;
 
+import com.hosp.hospms.models.DTOs.product.MedicineDTO;
+import com.hosp.hospms.models.DTOs.product.ProductDTO;
 import com.hosp.hospms.models.domains.product.Medicine;
 import com.hosp.hospms.models.domains.product.MedicineCategory;
 import com.hosp.hospms.models.domains.product.Product;
@@ -7,7 +9,7 @@ import com.hosp.hospms.models.domains.product.Product;
 import java.util.Arrays;
 import java.util.List;
 
-public class MedicineBuilder {
+public class ProductBuilder {
 
     public static Product get() {
 
@@ -86,4 +88,7 @@ public class MedicineBuilder {
         return Arrays.asList(product1, product2, product3, product4, product5);
     }
 
+    public static ProductDTO getDTO() {
+        return new MedicineDTO();
+    }
 }
