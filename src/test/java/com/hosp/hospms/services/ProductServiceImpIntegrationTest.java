@@ -17,7 +17,18 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-class ProductServiceImpIntegrationTest extends AbstractIntegrationTest  {
+import com.hosp.hospms.HospMsApplication;
+import com.hosp.hospms.config.FakeMongo;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = { HospMsApplication.class})
+@Import(FakeMongo.class)
+class ProductServiceImpIntegrationTest {
 
     @Autowired
     private ProductRepository repository;
