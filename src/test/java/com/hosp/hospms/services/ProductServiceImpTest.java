@@ -13,9 +13,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -110,16 +109,7 @@ class ProductServiceImpTest {
 
         Page<Product> allProducts = service.findAll(page);
 
-        List<Product> content1 = productList.getContent();
-        List<Product> content2 = allProducts.getContent();
-
-        assertEquals(productList.getTotalElements(), allProducts.getTotalElements());
-
-        for(int i = 0; i < content1.size(); i++){
-            product = content1.get(i);
-            productResult = content2.get(i);
-            assertProduct();
-        }
+        assertProductList(list , allProducts.getContent());
     }
 
 
@@ -136,12 +126,23 @@ class ProductServiceImpTest {
     @Test
     void shouldCreateProduct() {
         product = ProductBuilder.get();
-        when(repository.save(product)).thenReturn(product)  ;
+        when(repository.save(product)).thenReturn(product);
 
         productResult = service.create(product);
 
         assertProduct();
+    }
 
+    private void assertProductList(List<Product> productsExpected, List<Product> productsResult) {
+
+        assertNotNull(productsResult);
+        assertEquals(productsExpected.size(), productsResult.size());
+
+        for(int i = 0; i < productsExpected.size(); i++){
+            product = productsExpected.get(i);
+            productResult = productsResult.get(i);
+            assertProduct();
+        }
     }
 
     private void findByIdMock() {
