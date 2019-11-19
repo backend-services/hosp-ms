@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.hosp.hospms.controllers.v1.ProductControllerImp;
 import com.hosp.hospms.databuilder.ProductBuilder;
 import com.hosp.hospms.models.DTOs.product.MedicineDTO;
+import com.hosp.hospms.models.domains.product.Medicine;
 import com.hosp.hospms.services.ProductServiceImp;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -44,6 +45,17 @@ class ProductControllerImpTest extends AbstractTest {
     void shouldStatus200WhenFindAll() throws Exception {
         findAllMock();
         String uri = BASE_URL + "/";
+
+        mvc.perform(MockMvcRequestBuilders
+                .get(uri)
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().is(HTTP_STATUS_OK));
+    }
+
+    @Test
+    void shouldStatus200WhenFind() throws Exception {
+        findMock();
+        String uri = BASE_URL + PRODUCT_ID;
 
         mvc.perform(MockMvcRequestBuilders
                 .get(uri)
@@ -105,6 +117,12 @@ class ProductControllerImpTest extends AbstractTest {
 
     private void findAllMock() {
         when(service.findAll(any())).thenReturn(new PageImpl<>(Collections.emptyList()));
+        mapperMock();
+    }
+
+
+    private void findMock() {
+        when(service.find(any())).thenReturn(new Medicine());
         mapperMock();
     }
 
